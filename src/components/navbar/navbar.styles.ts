@@ -14,28 +14,53 @@ export const PrimaryIconContainer = styled.div`
   }
 `;
 
-export const SecondaryIconsContainer = styled.div``;
-
 export const IconWrapper = styled.div<{ active?: boolean }>`
   height: 56px;
   width: 56px;
   font-size: 32px;
-  ${(props) =>
-    props.active
-      ? `
-    color: #7C3AED;
-    background-color: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  `
-      : `
-      color: #9ca3af;
-      `}
+  color: #9ca3af;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  &:hover {
-    cursor: pointer;
+  cursor: pointer;
+
+  &:not(.active):hover {
     color: #6b7280;
+  }
+
+  &.active {
+    color: #7c3aed;
+    background-color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+`;
+
+export const AvatarWrapper = styled.div`
+  position: relative;
+  height: 56px;
+  width: 56px;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #6d28d9;
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+  & svg {
+    position: relative;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    background-color: #ede9fe;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 1px #c4b5fd solid;
   }
 `;

@@ -1,41 +1,39 @@
 import React from "react";
-import { RiDashboardFill } from "react-icons/ri";
-import { GiPencilBrush } from "react-icons/gi";
-import { FiSettings } from "react-icons/fi";
-import { BiUser } from "react-icons/bi";
+import { RiDashboardFill as DashboardIcon } from "react-icons/ri";
+import { GiPencilBrush as BrushIcon } from "react-icons/gi";
+import { FiSettings as SettingsIcon } from "react-icons/fi";
+import { FaUser as UserIcons } from "react-icons/fa";
 import {
   NavbarContainer,
   PrimaryIconContainer,
-  SecondaryIconsContainer,
   IconWrapper,
+  AvatarWrapper,
 } from "./navbar.styles";
+import clx from "classnames";
 
 function Navbar(): JSX.Element {
   return (
     <NavbarContainer>
       <PrimaryIconContainer>
-        <IconWrapper active={true}>
-          <RiDashboardFill />
+        <IconWrapper
+          className={clx({
+            active: true,
+          })}
+        >
+          <DashboardIcon />
         </IconWrapper>
         <IconWrapper>
-          <GiPencilBrush />
+          <BrushIcon />
         </IconWrapper>
         <IconWrapper>
-          <FiSettings />
+          <SettingsIcon />
         </IconWrapper>
       </PrimaryIconContainer>
-      <SecondaryIconsContainer>
-        <IconWrapper
-          style={{
-            borderRadius: "50%",
-            color: "#7C3AED",
-            backgroundColor: "#ffffff",
-            boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
-          }}
-        >
-          <BiUser />
-        </IconWrapper>
-      </SecondaryIconsContainer>
+      <div>
+        <AvatarWrapper>
+          <UserIcons />
+        </AvatarWrapper>
+      </div>
     </NavbarContainer>
   );
 }
