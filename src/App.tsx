@@ -1,23 +1,27 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import ProtectedRoute from 'components/protected-route';
 import Dashboard from 'pages/dashboard';
 import Settings from 'pages/settings';
 import Canvas from 'pages/canvas';
-import Auth from 'pages/auth';
+import Login from 'pages/login';
 import AuthProvider from 'provider/auth';
 import AppShell from './components/app-shell';
 
 function App(): JSX.Element {
   return (
     <Router>
-      <Routes>
-        <Route element={<Auth />} path="/login" />
-        <Route element={<AppShell />} path="/">
-          <Route element={<Canvas />} path="/canvas" />
-          <Route element={<Dashboard />} path="/dashboard" />
-          <Route element={<Settings />} path="/settings" />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route element={<Login />} path="/login" />
+          <ProtectedRoute element={<AppShell />} path="/">
+            <ProtectedRoute element={<Canvas />} path="/canvas" />
+            <ProtectedRoute element={<Dashboard />} path="/dashboard" />
+            <ProtectedRoute element={<Settings />} path="/settings" />
+            <ProtectedRoute element={<Navigate to="/dashboard" />} path="/" />
+          </ProtectedRoute>
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
