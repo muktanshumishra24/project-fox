@@ -38,7 +38,7 @@ export const PrimaryIconContainer = styled.div`
   }
 `;
 
-export const AvatarWrapper = styled.div`
+export const AvatarWrapper = styled.div<{ photoUrl: string | null | undefined }>`
   position: relative;
   height: 56px;
   width: 56px;
@@ -54,6 +54,7 @@ export const AvatarWrapper = styled.div`
 
   & svg {
     position: relative;
+    ${(props) => props.photoUrl && 'display: none;'};
   }
 
   &::before {
@@ -64,5 +65,8 @@ export const AvatarWrapper = styled.div`
     width: 50px;
     border-radius: 50%;
     border: 1px #c4b5fd solid;
+    background-image: url(${(props) => props.photoUrl});
+    background-position: center;
+    background-size: cover;
   }
 `;
