@@ -1,37 +1,41 @@
-import { PixelCanvasInterface } from './types';
+import { Command, CommandType, PixelCanvasInterface } from './types';
 
 class PixelCanvas implements PixelCanvasInterface {
   canvas: HTMLCanvasElement;
 
   ctx: CanvasRenderingContext2D;
 
-  top = 0;
+  gridElemSize: number;
 
-  left = 0;
-
-  constructor(height: number, width: number, root: HTMLElement) {
+  constructor(height: number, width: number) {
     this.canvas = document.createElement('canvas');
     this.canvas.height = height;
     this.canvas.width = width;
+    this.gridElemSize = Math.floor(height / 64);
     this.canvas.setAttribute('style', 'position: absolute; top: 0; left: 0');
 
     const ctx = this.canvas.getContext('2d');
 
     if (ctx) {
       this.ctx = ctx;
-      this.canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
-      root.appendChild(this.canvas);
-
-      const rect = this.canvas.getBoundingClientRect();
-      this.top = rect.top;
-      this.left = rect.left;
     } else {
       throw Error('getContext returned null');
     }
   }
 
-  onMouseDown(event: MouseEvent): void {
-    console.log(event.clientX - this.left, event.clientY - this.top);
+  apply(command: Command): void {
+    switch (command.type) {
+      case CommandType.DRAW:
+        this.ctx.fillRect(
+          command.x * this.gridElemSize,
+          command.y * this.gridElemSize,
+          this.gridElemSize,
+          this.gridElemSize
+        );
+        break;
+      default:
+        break;
+    }
   }
 }
 
