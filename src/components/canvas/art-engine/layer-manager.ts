@@ -1,27 +1,50 @@
 import { PixelCanvas } from './pixel-canvas';
+import { Layer } from './types';
 
 class LayerManager {
   root: HTMLElement;
 
-  layerBuffer: PixelCanvas[] = [];
+  layerStack: Layer[] = [];
 
-  activeLayer: PixelCanvas | undefined;
+  activePixelCanvas: PixelCanvas | undefined;
+
+  activePixelIdx = 0;
+
+  layerChangeCallback: (() => void) | undefined;
 
   constructor(root: HTMLElement) {
     this.root = root;
   }
 
   setActiveLayer(idx: number): void {
-    this.activeLayer = this.layerBuffer[idx];
+    this.layerStack[this.activePixelIdx].isActive = false;
+
+    this.activePixelIdx = idx;
+    this.layerStack[idx].isActive = true;
+    this.activePixelCanvas = this.layerStack[idx].pixelCanvas;
+    if (this.layerChangeCallback) {
+      this.layerChangeCallback();
+    }
   }
 
   addLayer(pixelCanvas: PixelCanvas): void {
     this.root.appendChild(pixelCanvas.canvas);
-    this.layerBuffer.push(pixelCanvas);
+    this.layerStack.push({ pixelCanvas, isActive: false });
+    if (this.layerChangeCallback) {
+      this.layerChangeCallback();
+    }
   }
 
   removeLayer(pixelCanvas: PixelCanvas): void {
-    this.layerBuffer = this.layerBuffer.filter((item) => item !== pixelCanvas);
+    this.layerStack = this.layerStack.filter((item) => item.pixelCanvas !== pixelCanvas);
+    if (this.layerChangeCallback) {
+      this.layerChangeCallback();
+    }
+  }
+
+  onLayerChange(callback: (value: Layer[]) => void): void {
+    this.layerChangeCallback = () => callback([...this.layerStack]);
+    callback([...this.layerStack]);
   }
 }
 

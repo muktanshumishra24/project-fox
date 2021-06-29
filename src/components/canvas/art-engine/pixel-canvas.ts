@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { Command, CommandType, PixelCanvasInterface } from './types';
 
 class PixelCanvas implements PixelCanvasInterface {
