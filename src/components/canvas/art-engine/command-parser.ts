@@ -29,7 +29,7 @@ class CommandParser {
   }
 
   execute(command: Command): void {
-    this.layerManager.activeLayer?.apply(command);
+    this.layerManager.activePixelCanvas?.apply(command);
   }
 }
 

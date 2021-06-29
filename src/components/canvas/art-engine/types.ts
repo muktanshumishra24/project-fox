@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-cycle
+import { PixelCanvas } from './pixel-canvas';
+
 export interface PixelCanvasInterface {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -30,3 +33,8 @@ export interface EraseCommand extends BaseCommand {
 }
 
 export type Command = DrawCommand | EraseCommand;
+
+export type Layer = {
+  pixelCanvas: PixelCanvas;
+  isActive: boolean;
+};

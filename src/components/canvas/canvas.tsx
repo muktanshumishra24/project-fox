@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { ArtEngine } from './art-engine';
-import { CommandType } from './art-engine/types';
+import { CommandType, Layer } from './art-engine/types';
 import { CanvasContainer } from './canvas.styles';
 
-type PixelCanvasProps = Record<string, never>;
+type PixelCanvasProps = {
+  onChangeLayer: (value: Layer[]) => void;
+  activeLayerIdx: number;
+};
 
 type PixelCanvasState = Record<string, never>;
 
@@ -38,7 +41,10 @@ class PixelCanvas extends Component<PixelCanvasProps, PixelCanvasState> {
 
   componentDidMount(): void {
     try {
+      const { onChangeLayer } = this.props;
+
       this.artEngine = new ArtEngine('art-engine-root');
+      this.artEngine.onLayerChange(onChangeLayer);
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +59,10 @@ class PixelCanvas extends Component<PixelCanvasProps, PixelCanvasState> {
     this.setCoordinateSystem();
   }
 
-  shouldComponentUpdate(): boolean {
+  shouldComponentUpdate(nextProps: PixelCanvasProps): boolean {
+    if (this.artEngine?.layerManager.activePixelIdx !== nextProps.activeLayerIdx) {
+      this.artEngine?.setActiveLayer(nextProps.activeLayerIdx);
+    }
     return false;
   }
 
