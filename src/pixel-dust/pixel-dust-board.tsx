@@ -1,14 +1,17 @@
 import React from 'react';
 import PixelDustApi from './pixel-dust-api';
 
-type PixelDustBoardProps = Record<string, undefined>;
+type PixelDustBoardProps = {
+  foregroundColor: string;
+  backgroundColor: string;
+};
 
 type PixelDustBoardState = Record<string, undefined>;
 
 class PixelDustBoard extends React.Component<PixelDustBoardProps, PixelDustBoardState> {
   pixelDustApi: PixelDustApi | undefined;
 
-  constructor(props: PixelDustBoardProps | Readonly<PixelDustBoardProps>) {
+  constructor(props: PixelDustBoardProps) {
     super(props);
     this.state = {};
   }
@@ -24,7 +27,14 @@ class PixelDustBoard extends React.Component<PixelDustBoardProps, PixelDustBoard
     }
   }
 
-  shouldComponentUpdate(): boolean {
+  shouldComponentUpdate(nextProps: PixelDustBoardProps): boolean {
+    const { foregroundColor, backgroundColor } = this.props;
+    if (foregroundColor !== nextProps.foregroundColor) {
+      this.pixelDustApi?.setForegroundColor(nextProps.foregroundColor);
+    }
+    if (backgroundColor !== nextProps.backgroundColor) {
+      this.pixelDustApi?.setBackgroundColor(nextProps.backgroundColor);
+    }
     return false;
   }
 

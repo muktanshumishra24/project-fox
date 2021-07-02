@@ -38,6 +38,11 @@ class PixelDustEngine {
     width: 0
   };
 
+  drawingState = {
+    foregroundColor: 'black',
+    backgroundColor: 'white'
+  };
+
   computationCache = {
     containerX: 0,
     containerY: 0
@@ -123,7 +128,7 @@ class PixelDustEngine {
         const { top, left, width, height } = this.containerPosition;
         const u = (x - left) / width;
         const v = (y - top) / height;
-        this.commandGenerator?.draw(u, v, '#000000');
+        this.commandGenerator?.draw(u, v, this.drawingState.foregroundColor);
       }
     });
   }
