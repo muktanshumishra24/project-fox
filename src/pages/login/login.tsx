@@ -1,24 +1,24 @@
 import React, { useContext, useEffect } from 'react';
 import { AuthContext } from 'provider/auth';
 import { useNavigate } from 'react-router-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { FcGoogle } from 'react-icons/fc';
-import { IoLogoFoursquare as Icon } from 'react-icons/io';
+import { FcGoogle as GoogleIcon } from 'react-icons/fc';
+import ProductCoverImage from 'assets/images/product_cover.webp';
+import HomeCardImage1 from 'assets/images/home_card_image_1.webp';
+import HomeCardImage2 from 'assets/images/home_card_image_2.webp';
 import {
-  LoginContainer,
-  AuthContainer,
-  RightContainer,
   LeftContainer,
-  TextArea,
-  ButtonArea,
-  TextAreaDes,
-  Backdrop,
-  ImgContainer,
-  Backdrop2,
-  Button
+  LoginPageContainer,
+  RightContainer,
+  SubtitleWrapper,
+  TitleWrapper,
+  TextWrapper,
+  SignInButton,
+  Overlay,
+  ProductCoverWrapper,
+  ProductCover,
+  ProductCoverContainer,
+  PreviewCard
 } from './login.styles';
-import BackImg from '../../assets/img/Dots_Square.png';
-import HeroImage from '../../assets/img/HeroImage.png';
 
 function Login(): JSX.Element {
   const { user, googleSignIn } = useContext(AuthContext);
@@ -31,51 +31,31 @@ function Login(): JSX.Element {
   }, [navigate, user]);
 
   return (
-    <LoginContainer>
-      <AuthContainer>
-        <LeftContainer>
-          <Icon
-            style={{
-              fontSize: '55px'
-            }}
-          />
-          <TextArea>
-            <p>An world of pixel art community for everyone!</p>
-          </TextArea>
-          <TextAreaDes>
-            <p>
-              A safe platform for users of all ages. Create beautiful pixel art, share, and more !
-              Our tools promote a technology-based future that encourages programming, digital art,
-              and computers.
-            </p>
-          </TextAreaDes>
-          <ButtonArea>
-            <Button className="active" onClick={googleSignIn}>
-              <FcGoogle
-                style={{
-                  fontSize: '35px',
-                  backgroundColor: 'white',
-                  padding: '2px',
-                  margin: '-0px -5px'
-                }}
-              />
-              <span style={{ color: 'white', fontSize: '18px' }}>Sign in with google</span>
-            </Button>
-          </ButtonArea>
-        </LeftContainer>
-        <RightContainer>
-          <Backdrop>
-            <img src={BackImg} alt="backdrop" />
-          </Backdrop>
-          <Backdrop2>
-            <img src={BackImg} alt="backdrop" />
-          </Backdrop2>
-          <ImgContainer>
-            <img src={HeroImage} alt="heroimage" />
-          </ImgContainer>
-        </RightContainer>
-      </AuthContainer>
-    </LoginContainer>
+    <LoginPageContainer>
+      <LeftContainer>
+        <TextWrapper>
+          <TitleWrapper>Pixel Dust Editor 🎨</TitleWrapper>
+          <SubtitleWrapper>
+            A pixel art ecosystem for artists who love being creative with constraints
+          </SubtitleWrapper>
+          <SignInButton onClick={googleSignIn}>
+            <GoogleIcon />
+            <span>Sign In</span>
+          </SignInButton>
+        </TextWrapper>
+      </LeftContainer>
+      <RightContainer>
+        <Overlay>
+          <ProductCoverContainer>
+            <PreviewCard imageUrl={HomeCardImage1} top={-80} left={-80} />
+            {/* <PreviewCard imageUrl={HomeCardImage2} top={-60} left={-100} /> */}
+            <ProductCoverWrapper>
+              <ProductCover src={ProductCoverImage} />
+            </ProductCoverWrapper>
+          </ProductCoverContainer>
+        </Overlay>
+      </RightContainer>
+    </LoginPageContainer>
   );
 }
 
