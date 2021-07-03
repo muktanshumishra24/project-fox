@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import PixelCanvas, { CanvasType } from './pixel-canvas';
 
-type Layer = {
+export type Layer = {
   pixelCanvas: PixelCanvas;
   uuid: string;
 };
@@ -23,6 +23,10 @@ class LayerManager {
 
   activeLayer: Layer | null = null;
 
+  layerStackUpdateCB: undefined | ((arg: Layer[]) => void) = undefined;
+
+  activeLayerUpdateCB: undefined | ((arg: Layer) => void) = undefined;
+
   constructor(options: LayerManagerProps) {
     this.layerStack = [];
     this.dimension = options.dimension;
@@ -40,6 +44,7 @@ class LayerManager {
     } else {
       const [layer] = filterOutput;
       this.activeLayer = layer;
+      if (this.activeLayerUpdateCB) this.activeLayerUpdateCB(this.activeLayer);
     }
   }
 
@@ -51,29 +56,48 @@ class LayerManager {
     return this.activeLayer?.uuid ?? null;
   }
 
-  addLayerAfter(args?: { uuid?: string }): Layer {
-    if (!args?.uuid) {
+  addLayerAfter(arg?: { uuid?: string }): Layer {
+    if (!arg?.uuid) {
+      const uuid = uuidv4();
       const layer = {
-        pixelCanvas: new PixelCanvas(this.canvasType, this.dimension, this.canvasContainerElement),
-        uuid: uuidv4()
+        pixelCanvas: new PixelCanvas(
+          this.canvasType,
+          this.dimension,
+          this.canvasContainerElement,
+          uuid
+        ),
+        uuid
       };
       this.layerStack.push(layer);
+      if (this.layerStackUpdateCB) this.layerStackUpdateCB(this.layerStack);
       return layer;
     }
     // TODO
+    const uuid = uuidv4();
     const layer = {
-      pixelCanvas: new PixelCanvas(this.canvasType, this.dimension, this.canvasContainerElement),
-      uuid: uuidv4()
+      pixelCanvas: new PixelCanvas(
+        this.canvasType,
+        this.dimension,
+        this.canvasContainerElement,
+        uuid
+      ),
+      uuid
     };
     this.layerStack.push(layer);
     return layer;
   }
 
-  addLayerBefore({ uuid }: { uuid: string }): void {
-    if (!uuid) {
+  addLayerBefore(arg: { uuid: string }): void {
+    if (!arg.uuid) {
+      const uuid = uuidv4();
       this.layerStack.push({
-        pixelCanvas: new PixelCanvas(this.canvasType, this.dimension, this.canvasContainerElement),
-        uuid: uuidv4()
+        pixelCanvas: new PixelCanvas(
+          this.canvasType,
+          this.dimension,
+          this.canvasContainerElement,
+          uuid
+        ),
+        uuid
       });
     }
     // TODO

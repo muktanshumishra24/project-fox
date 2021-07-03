@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { RiDashboardFill as DashboardIcon } from 'react-icons/ri';
-import { GiPencilBrush as BrushIcon } from 'react-icons/gi';
-import { FiSettings as SettingsIcon } from 'react-icons/fi';
+import { CgPen as BrushIcon } from 'react-icons/cg';
+import { MdSettings as SettingsIcon } from 'react-icons/md';
 import { FaUser as UserIcons } from 'react-icons/fa';
 import { AuthContext } from 'provider/auth';
 import { NavbarContainer, PrimaryIconContainer, IconWrapper, AvatarWrapper } from './navbar.styles';

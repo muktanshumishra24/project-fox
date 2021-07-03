@@ -19,8 +19,6 @@ class PixelDustEngine {
 
   dimension: number;
 
-  initializeWithLayer: boolean;
-
   eventManager: EventManager | undefined;
 
   layerManager: LayerManager | undefined;
@@ -48,23 +46,13 @@ class PixelDustEngine {
     containerY: 0
   };
 
-  constructor({
-    mountTarget,
-    dimension,
-    canvasType,
-    initializeWithLayer = true
-  }: PixelDustEngineProps) {
+  constructor({ mountTarget, dimension, canvasType }: PixelDustEngineProps) {
     this.dimension = dimension;
     this.mountTarget = mountTarget;
-    this.initializeWithLayer = initializeWithLayer;
-    this.initializeDrawingStage(canvasType, dimension, initializeWithLayer);
+    this.initializeDrawingStage(canvasType, dimension);
   }
 
-  initializeDrawingStage(
-    canvasType: CanvasType,
-    dimension: number,
-    initializeWithLayer: boolean
-  ): void {
+  initializeDrawingStage(canvasType: CanvasType, dimension: number): void {
     const stage = document.createElement('div');
     stage.classList.add('pixel-dust-stage');
 
@@ -81,11 +69,6 @@ class PixelDustEngine {
       canvasContainerElement: this.pixelDustCanvasContainer,
       dimension
     });
-
-    if (initializeWithLayer) {
-      const addedLayer = this.layerManager.addLayerAfter();
-      this.layerManager.setActiveLayer({ uuid: addedLayer.uuid });
-    }
 
     this.resetCoordinates();
 
