@@ -16,7 +16,7 @@ class PixelDustApi {
 
   constructor({
     mountTarget,
-    dimension = 800,
+    dimension = 832,
     layerStackUpdateCB,
     activeLayerUpdateCB,
     canvasType = CanvasType.X64,
